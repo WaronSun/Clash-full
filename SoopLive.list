@@ -1,0 +1,22 @@
+# NAME: SOOPLive
+# AUTHOR: customized
+# UPDATED: 2026-03-26
+# DESCRIPTION: SOOPLive + Naver domain rules
+
+# DOMAIN
+DOMAIN,www.sooplive.co.kr
+
+# DOMAIN-SUFFIX
+DOMAIN-SUFFIX,sooplive.co.kr
+DOMAIN-SUFFIX,sooplive.com
+DOMAIN-SUFFIX,naver.com
+DOMAIN-SUFFIX,naver.net
+DOMAIN-SUFFIX,naver.jp
+
+# DOMAIN-KEYWORD
+DOMAIN-KEYWORD,soop
+DOMAIN-KEYWORD,naver
+
+# （可选）SOOPLive 常见 CDN
+DOMAIN-SUFFIX,akamaized.net
+DOMAIN-SUFFIX,cloudfront.net
