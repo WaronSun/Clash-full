@@ -1,0 +1,28 @@
+# DOMAIN（精确匹配）
+DOMAIN,www.sese1010.shop
+DOMAIN,asmr.bobobo.pro
+DOMAIN,btsow.motorcycles
+DOMAIN,kuliyun.com
+DOMAIN,stk.mom
+DOMAIN,onlyfans.com
+DOMAIN,zukong.bobobo.pro
+
+# DOMAIN-SUFFIX（后缀匹配）
+DOMAIN-SUFFIX,sese1010.shop
+DOMAIN-SUFFIX,bobobo.pro
+DOMAIN-SUFFIX,btsow.motorcycles
+DOMAIN-SUFFIX,cyuu.life
+DOMAIN-SUFFIX,avmoo.online
+DOMAIN-SUFFIX,sqx1.shop
+DOMAIN-SUFFIX,stk.mom
+DOMAIN-SUFFIX,onlyfans.com
+DOMAIN-SUFFIX,ssqq16.shop
+DOMAIN-SUFFIX,cloudfront.net
+DOMAIN-SUFFIX,youtubeasmr.com
+DOMAIN-SUFFIX,fansly.com
+DOMAIN-SUFFIX,jjjjjjjjjjjjjjjxxxxxxxxxx.shop
+DOMAIN-SUFFIX,meiasmr.com
+DOMAIN-SUFFIX,jtvnw.net
+DOMAIN-SUFFIX,155.fun
+DOMAIN-SUFFIX,avmoo.online
+DOMAIN-KEYWORD,avmoo
