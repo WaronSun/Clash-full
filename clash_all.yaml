@@ -1,0 +1,351 @@
+# ==========================================================
+# OpenClash 覆写配置（由订阅转换模板迁移）
+# ==========================================================
+
+port: 7890
+socks-port: 7891
+mixed-port: 7893
+redir-port: 7892
+tproxy-port: 7895
+
+allow-lan: true
+bind-address: "*"
+mode: rule
+log-level: info
+ipv6: false
+
+external-controller: 0.0.0.0:9090
+
+# =========================
+# DNS（按你原配置强化版）
+# =========================
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  ipv6: false
+
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*.lan"
+    - "*.local"
+    - "localhost"
+    - "dns.msftncsi.com"
+    - "www.msftconnecttest.com"
+
+  nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+
+  fallback:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+
+# ==========================================================
+# Proxy Groups（= custom_proxy_group 转换核心）
+# ==========================================================
+
+proxy-groups:
+
+# -------------------------
+# 基础节点选择
+# -------------------------
+  - name: "所有-手动"
+    type: select
+    proxies:
+      - DIRECT
+
+  - name: "所有-自动"
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 180
+    tolerance: 100
+    proxies:
+      - ALL
+
+# =========================
+# 区域组
+# =========================
+
+  - name: "香港-自动"
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 180
+    tolerance: 100
+    proxies:
+      - "(?i)香港|HK|Hong Kong"
+
+  - name: "台湾-自动"
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 180
+    tolerance: 100
+    proxies:
+      - "(?i)台湾|TW|Taiwan"
+
+  - name: "日本-自动"
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 180
+    tolerance: 100
+    proxies:
+      - "(?i)日本|JP"
+
+  - name: "新加坡-自动"
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 180
+    tolerance: 100
+    proxies:
+      - "(?i)新加坡|SG"
+
+  - name: "韩国-自动"
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 180
+    tolerance: 100
+    proxies:
+      - "(?i)韩国|KR"
+
+  - name: "美国-自动"
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 180
+    tolerance: 100
+    proxies:
+      - "(?i)美国|US"
+
+  - name: "其他-自动"
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 180
+    tolerance: 100
+    proxies:
+      - "(?i)印度|越南|俄罗斯|德国|法国|英国"
+
+# =========================
+# 核心策略组（替代 ruleset group）
+# =========================
+
+  - name: "✨ AI1"
+    type: select
+    proxies:
+      - DIRECT
+      - "所有-手动"
+      - "所有-自动"
+      - "香港-自动"
+      - "台湾-自动"
+      - "日本-自动"
+      - "新加坡-自动"
+      - "韩国-自动"
+      - "美国-自动"
+      - "其他-自动"
+      - REJECT
+
+  - name: "✨ AI2"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "📘 GitHub"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "👯♂️ TikTok"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🙋 Telegram"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🕊️ Twitter(X)"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🗣️ Facebook"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🌳 Amazon"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🍎 Apple"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "Ⓜ️ Microsoft"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🎮 Steam"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🕹️ Game"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🎞️ YouTube"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "📺 SoopLive"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "📺 Disney"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🎥 Netflix"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🎬 HBO"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🎵 Spotify"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🎞️ OtherVideo"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "🌍 国外"
+    type: select
+    proxies: *AI_BASE
+
+  - name: "➡️ 国内"
+    type: select
+    proxies:
+      - DIRECT
+
+# =========================
+# 规则（ruleset 转换核心）
+# =========================
+
+rules:
+
+  # AI
+  - RULE-SET,AI1,✨ AI1
+  - RULE-SET,AI2,✨ AI2
+
+  # 社交/平台
+  - RULE-SET,GitHub,📘 GitHub
+  - RULE-SET,TikTok,👯♂️ TikTok
+  - RULE-SET,Telegram,🙋 Telegram
+  - RULE-SET,Twitter,🕊️ Twitter(X)
+  - RULE-SET,Facebook,🗣️ Facebook
+
+  # 电商/平台
+  - RULE-SET,Amazon,🌳 Amazon
+  - RULE-SET,Apple,🍎 Apple
+  - RULE-SET,Microsoft,Ⓜ️ Microsoft
+
+  # 游戏
+  - RULE-SET,Steam,🎮 Steam
+  - RULE-SET,Epic,🕹️ Game
+  - RULE-SET,EA,🕹️ Game
+  - RULE-SET,Blizzard,🕹️ Game
+  - RULE-SET,UBI,🕹️ Game
+  - RULE-SET,Sony,🕹️ Game
+  - RULE-SET,Nintendo,🕹️ Game
+
+  # 视频
+  - RULE-SET,YouTube,🎞️ YouTube
+  - RULE-SET,Disney,📺 Disney
+  - RULE-SET,Netflix,🎥 Netflix
+  - RULE-SET,HBO,🎬 HBO
+  - RULE-SET,Spotify,🎵 Spotify
+  - RULE-SET,OtherVideo,🎞️ OtherVideo
+
+  # 全局国外
+  - RULE-SET,Global,🌍 国外
+
+  # 国内直连
+  - MATCH,➡️ 国内
+
+# ==========================================================
+# RULE-SET 远程列表
+# ==========================================================
+
+rule-providers:
+
+  AI1:
+    type: http
+    url: https://raw.githubusercontent.com/liandu2024/clash/refs/heads/main/list/AI.list
+    interval: 86400
+    path: ./ruleset/ai1.yaml
+
+  AI2:
+    type: http
+    url: https://raw.githubusercontent.com/liandu2024/clash/refs/heads/main/list/AI2.list
+    interval: 86400
+    path: ./ruleset/ai2.yaml
+
+  GitHub:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.list
+    interval: 86400
+
+  Telegram:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.list
+    interval: 86400
+
+  TikTok:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.list
+    interval: 86400
+
+  Twitter:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.list
+    interval: 86400
+
+  Facebook:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Facebook/Facebook.list
+    interval: 86400
+
+  Amazon:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Amazon/Amazon.list
+    interval: 86400
+
+  Apple:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.list
+    interval: 86400
+
+  Microsoft:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.list
+    interval: 86400
+
+  Steam:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Steam/Steam.list
+    interval: 86400
+
+  YouTube:
+    type: http
+    url: https://raw.githubusercontent.com/liandu2024/clash/main/list/YouTube.list
+    interval: 86400
+
+  Netflix:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.list
+    interval: 86400
+
+  Global:
+    type: http
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global.list
+    interval: 86400
